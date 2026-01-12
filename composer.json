@@ -1,0 +1,15 @@
+{
+    "name": "lenovo/www",
+    "autoload": {
+        "psr-4": {
+            "Lenovo\\Www\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "OUTERGA-MOUSTAFA",
+            "email": "outergamoustafa@gmail.com"
+        }
+    ],
+    "require": {}
+}
