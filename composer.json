@@ -2,7 +2,7 @@
     "name": "lenovo/www",
     "autoload": {
         "psr-4": {
-            "Lenovo\\Www\\": "src/"
+            "App\\": "AppJobDating/"
         }
     },
     "authors": [
