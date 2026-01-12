@@ -5,7 +5,7 @@
 namespace App\Config;
 
 // use App\config\config;
-
+// database config
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'AppJobDating');
 define('DB_USER', 'root');
