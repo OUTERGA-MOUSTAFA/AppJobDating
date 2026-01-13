@@ -5,13 +5,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\app\core\config;
 
 class Router {
-
-    private $routes = [
-        'GET' => [],
-        'POST' => [],
-        'PUT' => [],
-        'DELETE' => []
-    ];
+// 'GET' => [],
+        // 'POST' => [],
+        // 'PUT' => [],
+        // 'DELETE' => []
+    private $routes = [];
 
 
     public function get(string $route, array|callable $action)
@@ -20,23 +18,23 @@ class Router {
     }
 
 
-    public function post(string $route, array|callable $action)
-    {
-        $this->routes($route, 'POST', $action);
-    }
+    // public function post(string $route, array|callable $action)
+    // {
+    //     $this->routes($route, 'POST', $action);
+    // }
 
 
-    public function put(string $route, array|callable $action)
-    {
-        $this->routes($route, 'PUT', $action);
-    }
+    // public function put(string $route, array|callable $action)
+    // {
+    //     $this->routes($route, 'PUT', $action);
+    // }
 
 
 
-    public function delete(string $route, array|callable $action)
-    {
-        $this->routes($route, 'DELETE', $action);
-    }
+    // public function delete(string $route, array|callable $action)
+    // {
+    //     $this->routes($route, 'DELETE', $action);
+    // }
 
 
     // $router->dispatch();
