@@ -2,7 +2,7 @@
 /**
  * Configuration de la base de données
  */
-namespace App\Config;
+namespace App\config;
 
 // use App\config\config;
 // database config

@@ -1,15 +1,51 @@
 <?php
 
-namespace App\Core;
+namespace App\app\Core;
 require_once __DIR__ . '/../vendor/autoload.php';
+use App\app\core\config;
 
 class Router {
-    
-public function dispatch()
+
+    private $routes = [
+        'GET' => [],
+        'POST' => [],
+        'PUT' => [],
+        'DELETE' => []
+    ];
+
+
+    public function get(string $route, array|callable $action)
+    {
+        $this->routes($route, 'GET', $action);
+    }
+
+
+    public function post(string $route, array|callable $action)
+    {
+        $this->routes($route, 'POST', $action);
+    }
+
+
+    public function put(string $route, array|callable $action)
+    {
+        $this->routes($route, 'PUT', $action);
+    }
+
+
+
+    public function delete(string $route, array|callable $action)
+    {
+        $this->routes($route, 'DELETE', $action);
+    }
+
+
+    // $router->dispatch();
+    public function dispatch()
     {
         // Get the requested route.
         $requestedRoute = trim($_SERVER['REQUEST_URI'], '/') ?? '/';
-
+        define('BASE_PATH', '/AppJobDating');
+        $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
         $routes = self::$routes[$_SERVER['REQUEST_METHOD']];
 
         foreach ($routes as $route => $action)

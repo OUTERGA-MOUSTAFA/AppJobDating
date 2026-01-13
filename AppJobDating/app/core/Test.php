@@ -3,8 +3,8 @@
 
 class TestClass {
 
-    public function hello() {
-        return "Hello PSR-4!";
+    function home(){
+        return "مرحبا بك في الصفحة الرئيسية";
     }
 
 
