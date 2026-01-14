@@ -12,7 +12,7 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
-// Session security
+// Session
 // Configuration des sessions sécurisées
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
