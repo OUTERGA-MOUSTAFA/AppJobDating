@@ -2,7 +2,7 @@
 <?php
 
 
-namespace App\app\core;
+namespace App\app\controllers;
 
 use App\app\controllers\BaseController;
 

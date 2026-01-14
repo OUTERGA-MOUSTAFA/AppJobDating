@@ -1,6 +1,7 @@
 <?php
+namespace App\app\core;
 
-class BaseController
+abstract class BaseController
 {
     public function render($view, $data = [])
     {
