@@ -25,8 +25,7 @@
                 🏠 Accueil
             </a>
 
-            <button onclick="history.back()"
-                    class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-200 transition">
+            <button class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-200 transition">
                 ⬅ Retour
             </button>
         </div>

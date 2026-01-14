@@ -1,0 +1,10 @@
+<?php
+
+class BaseController
+{
+    public function render($view, $data = [])
+    {
+        extract($data);
+        include DIR . "/views/{$view}.php";
+    }
+}

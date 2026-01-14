@@ -13,29 +13,34 @@ class Router {
         'DELETE' => []
     ];
 
+    private function addRoute(string $method, string $route, array|callable $action)
+    {
+        $this->routes[$method][$route] = $action;
+    }
+
 
     public function get(string $route, array|callable $action)
     {
-        $this->routes($route, 'GET', $action);
+        $this->addRoute(trim($route, '/'), 'GET', $action);
     }
 
 
     public function post(string $route, array|callable $action)
     {
-        $this->routes($route, 'POST', $action);
+        $this->addRoute(trim($route, '/'), 'POST', $action);
     }
 
 
     public function put(string $route, array|callable $action)
     {
-        $this->routes($route, 'PUT', $action);
+        $this->addRoute( trim($route, '/'), 'PUT', $action);
     }
 
 
 
     public function delete(string $route, array|callable $action)
     {
-        $this->routes($route, 'DELETE', $action);
+        $this->addRoute(trim($route, '/'), 'DELETE', $action);
     }
 
 
@@ -44,7 +49,9 @@ class Router {
     {
         // Get the requested route.
         $requestedRoute = trim($_SERVER['REQUEST_URI'], '/') ?? '/';
-        define('BASE_PATH', '/AppJobDating');
+         if (BASE_PATH !== '' && defined('BASSE_PATH')) {
+            $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
+        }
         $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
         $routes = self::$routes[$_SERVER['REQUEST_METHOD']];
 
@@ -79,9 +86,24 @@ class Router {
                 return  $this->resolveAction($action, $routeParams);
             }
         }
-        return $this->abort('404 Page not found');
+        return $this->abort();
     }
 
+    function resolveAction($action , $paramsRoute= []){
+        if (is_callable($action)) {
+            return call_user_func_array($action, $params);
+        }
 
+        [$controller, $method] = $action;
+        $controller = new $controller;
+
+        return call_user_func_array([$controller, $method], $params);
+    }
+
+    protected function abort()
+    {
+        http_response_code(404);
+        echo "404 | Page Not Found";
+        exit;
+    }
 }
-
