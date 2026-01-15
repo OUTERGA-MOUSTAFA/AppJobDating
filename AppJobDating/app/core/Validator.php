@@ -7,18 +7,6 @@ use App\app\core\BaseModel;
 
 class Validator extends BaseModel {
 
-    // GET view register
-    public function showRegister($errors = []) {
-    
-        require __DIR__ . '/../view/auth/register.php';
-    }
-
-    // GET view login
-    public function showLogin($errors = []) {
-    
-        require __DIR__ . '/../view/auth/login.php';
-    }
-
     public function login() {
         $email = strip_tags(trim($_POST['email'] ?? ''));
         $password = strip_tags(trim($_POST['password'] ?? ''));
@@ -139,15 +127,5 @@ class Validator extends BaseModel {
         header('Location: ' . BASE_PATH . '/register');
         exit();
         }
-    }
-
-    function logout() {
-        // Destroy the session
-        session_unset();
-        session_destroy();
-
-        // Redirect to login page
-        header('Location: ' . BASE_PATH . '/register');
-        exit();
     }
 }

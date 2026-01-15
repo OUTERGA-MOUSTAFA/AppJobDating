@@ -123,7 +123,7 @@ class Router {
     protected function abort()
     {
         http_response_code(404);
-        include BASE_PATH . '/app/views/404.php';
+        include __DIR__ . '/../views/404.php';
         exit();
     }
 }

@@ -15,29 +15,29 @@ $router = new Router();
  */
 $router->get('/dashboard', function () {
     //require BASE_PATH . '/app/views/dashboard.php';
-    require BASE_PATH . '/app/core/BaseController.php';
+    require __DIR__ . '/../app/views/dashboard.php';
 });
 
 
 
 $router->get('/login', function () {
-    require BASE_PATH . '/app/views/login.php';
+    require __DIR__ . '/../app/views/login.php';
 });
 
 $router->post('/login', function () {
-    require BASE_PATH . '/app/views/login.php';
+    require __DIR__ . '/../app/views/login.php';
 });
 
 
 $router->get('/404', function () {
-    require BASE_PATH . '/app/views/404.php';
+    require __DIR__ . '/../app/views/404.php';
 });
 
 $router->get('/register', function () {
-    require BASE_PATH . '/app/views/register.php';
+    require __DIR__ . '/../app/views/register.php';
 });
 $router->post('/register', function () {
-    require BASE_PATH . '/app/views/register.php';
+    require __DIR__ . '/../app/views/register.php';
 });
 
 // dispatch request
