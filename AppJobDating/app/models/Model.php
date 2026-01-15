@@ -1,5 +1,7 @@
 <?php
 
+namespace App\app\models;
+use App\app\core\BaseModel;
 
 class Model extends BaseModel {
 
