@@ -30,6 +30,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Régénération de l'ID de session pour prévenir le session hijacking
 if (!isset($_SESSION['initiated'])) {
+   //regenerate ID Protection session fixation
     session_regenerate_id(true);
     $_SESSION['initiated'] = true;
 }

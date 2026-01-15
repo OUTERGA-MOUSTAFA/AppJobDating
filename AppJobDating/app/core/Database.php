@@ -22,7 +22,6 @@ class database{
             ];
             
             $this->connection = new PDO($dsn, DB_USER, DB_PASS, $options);
-            echo 'connecté !';
         } catch (PDOException $e) {
             die("Erreur de connexion : " . $e->getMessage());
         }
