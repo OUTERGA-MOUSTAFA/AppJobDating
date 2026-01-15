@@ -1,21 +1,33 @@
 <?php
 
 namespace App\app\Core;
-require_once __DIR__ . '/../vendor/autoload.php';
+
 use App\app\core\config;
 
 class Router {
 
-    private $routes = [
+    private $Routes = [
         'GET' => [],
         'POST' => [],
         'PUT' => [],
         'DELETE' => []
     ];
+// $Routes = [
+//     'GET' => ['' => function() { echo "Home"; }, 'dashboard' => [HomeController::class, 'index'], 'users' => [UserController::class, 'list'], 'user/{id}' => [UserController::class, 'show']
+//     ],
+//     'POST' => [
+//         'login' => [AuthController::class, 'login'],
+//         'register' => [AuthController::class, 'register']
+//     ],
+//     'PUT' => [],
+//     'DELETE' => []
+// ];
 
-    private function addRoute(string $method, string $route, array|callable $action)
+    private function addRoute( string $route,string $method, array|callable $action)
     {
-        $this->routes[$method][$route] = $action;
+        $this->Routes[$method][$route] = $action;
+        //$action = [ 'App\app\Controllers\UserController','show'];
+        //Ex: $action = [UserController::class, 'show'];
     }
 
 
@@ -49,18 +61,20 @@ class Router {
     {
         // Get the requested route.
         $requestedRoute = trim($_SERVER['REQUEST_URI'], '/') ?? '/';
-         if (BASE_PATH !== '' && defined('BASSE_PATH')) {
-            $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
-        }
-        $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
-        $routes = self::$routes[$_SERVER['REQUEST_METHOD']];
+        //  if (BASE_PATH !== '' && defined('BASE_PATH',"/AppJobDating")) {
+        //     $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
+        // }
+        // $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
+        
+        $routes = $this->Routes[$_SERVER['REQUEST_METHOD']];
 
         foreach ($routes as $route => $action)
         {
             // Transform route to regex pattern.
-            $routeRegex = preg_replace_callback('/{\w+(:([^}]+))?}/', function ($matches)
-            {
+            $routeRegex = preg_replace_callback('/{\w+(:([^}]+))?}/', function ($matches)//  $matches=> id = 5
+            {//       $route = 'user/{id}'; قلب على
                 return isset($matches[1]) ? '(' . $matches[2] . ')' : '([a-zA-Z0-9_-]+)';
+                
             }, $route);
 
             // Add the start and end delimiters.
@@ -68,7 +82,7 @@ class Router {
 
             // Check if the requested route matches the current route pattern.
             if (preg_match($routeRegex, $requestedRoute, $matches))
-            {
+            {// يحول route لـ regex
                 // Get all user requested path params values after removing the first matches.
                 array_shift($matches);
                 $routeParamsValues = $matches;
@@ -91,18 +105,25 @@ class Router {
 
     function resolveAction($action , $paramsRoute= []){
         if (is_callable($action)) {
-            return call_user_func_array($action, $params);
+            return call_user_func_array($action, $paramsRoute);
         }
 
         [$controller, $method] = $action;
-        $controller = new $controller;
+        // $action = [UserController::class, 'show'];
+        // $controller = "UserController";
+        // $method = "show";
 
-        return call_user_func_array([$controller, $method], $params);
+        $controller = new $controller;
+        //$controller = new UserController();
+
+        return call_user_func_array([$controller, $method], $paramsRoute);
+        //$controller->show(5);
     }
 
     protected function abort()
     {
-         include __DIR__ .'../views/404.php';
+        http_response_code(404);
+        include BASE_PATH . '/app/views/404.php';
         exit();
     }
 }

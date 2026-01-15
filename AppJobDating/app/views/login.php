@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page - Tailwind CSS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .login-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .input-icon {
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    
+    <div class="login-card w-full max-w-md bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-purple-600 to-blue-500 p-8 text-center">
+            <h1 class="text-3xl font-bold text-white">
+                <i class="fas fa-user-circle mr-2"></i>Welcome Back
+            </h1>
+            <p class="text-white/80 mt-2">Dkhol l compte dyalek bach tkmel</p>
+        </div>
+        
+        <!-- Form -->
+        <div class="p-8">
+            <form id="loginForm" class="space-y-6">
+                
+                <!-- Email Input -->
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">
+                        <i class="fas fa-envelope mr-2 text-blue-500"></i>Email aw Username
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="email"
+                            class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                            placeholder="example@site.com"
+                            required
+                        >
+                        <div class="absolute left-4 top-3.5 input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Password Input -->
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">
+                        <i class="fas fa-lock mr-2 text-blue-500"></i>Password
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password"
+                            class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                            placeholder="••••••••"
+                            required
+                        >
+                        <div class="absolute left-4 top-3.5 input-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <button type="button" id="showPassword" class="absolute right-4 top-3.5 text-gray-500">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Remember & Forgot -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" class="w-4 h-4 text-blue-600 rounded">
+                        <label for="remember" class="ml-2 text-gray-700">Hfedni</label>
+                    </div>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        <i class="fas fa-question-circle mr-1"></i>Tnsa Password?
+                    </a>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" 
+                        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition duration-300 shadow-lg hover:shadow-xl">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Dkhol
+                </button>
+                
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-white text-gray-500">Awla</span>
+                    </div>
+                </div>
+                
+                <!-- Social Login -->
+                <div class="grid grid-cols-3 gap-4">
+                    <button type="button" 
+                            class="py-3 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition flex items-center justify-center">
+                        <i class="fab fa-google text-lg"></i>
+                    </button>
+                    <button type="button" 
+                            class="py-3 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition flex items-center justify-center">
+                        <i class="fab fa-facebook text-lg"></i>
+                    </button>
+                    <button type="button" 
+                            class="py-3 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition flex items-center justify-center">
+                        <i class="fab fa-github text-lg"></i>
+                    </button>
+                </div>
+                
+            </form>
+            
+            <!-- Signup Link -->
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">
+                    Makaynach l compte? 
+                    <a href="#" class="text-blue-600 font-semibold hover:text-blue-800 ml-1">
+                        Sajel hna <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </p>
+            </div>
+            
+            <!-- Message -->
+            <div id="message" class="mt-6 text-center"></div>
+        </div>
+        
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Show/Hide Password
+        document.getElementById('showPassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if(passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'far fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'far fa-eye';
+            }
+        });
+        
+        // Form Submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message');
+            
+            // Validation basique
+            if(!email.includes('@')) {
+                showMessage('❌ Email ghalat!', 'red');
+                return;
+            }
+            
+            if(password.length < 6) {
+                showMessage('❌ Password khassha tkun 6 characters aw akthar!', 'red');
+                return;
+            }
+            
+            // Simuler login réussit
+            showMessage('✅ Login réussit! Tan7erraf...', 'green');
+            
+            // Redirection simulation
+            setTimeout(() => {
+                showMessage('🚀 Redirecting to dashboard...', 'blue');
+                // window.location.href = "dashboard.html";
+            }, 1500);
+        });
+        
+        function showMessage(text, color) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `mt-6 text-center font-medium text-${color}-600`;
+            message.innerHTML = `<i class="fas fa-${color === 'green' ? 'check-circle' : 'exclamation-circle'} mr-2"></i>${text}`;
+        }
+        
+        // Effet d'animation
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-blue-300');
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-blue-300');
+            });
+        });
+    </script>
+    
+</body>
+</html>

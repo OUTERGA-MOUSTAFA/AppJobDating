@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Sajel Jdid</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        .register-card {
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-focus:focus-within {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 flex items-center justify-center">
+    
+    <div class="register-card w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden">
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar w-0 transition-all duration-500" id="progressBar"></div>
+        
+        <div class="md:flex">
+            <!-- Left Side - Illustration -->
+            <div class="hidden md:block md:w-2/5 bg-gradient-to-b from-purple-600 to-blue-500 p-8 text-white">
+                <div class="h-full flex flex-col justify-center">
+                    <div class="text-center mb-8">
+                        <i class="fas fa-user-plus text-6xl mb-4 opacity-90"></i>
+                        <h2 class="text-2xl font-bold">Bienvenue!</h2>
+                        <p class="mt-2 opacity-90">Rejoignez notre communauté</p>
+                    </div>
+                    
+                    <div class="space-y-4 mt-8">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-xl mr-3"></i>
+                            <span>Créez votre profil</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-xl mr-3"></i>
+                            <span>Personnalisez vos préférences</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-xl mr-3"></i>
+                            <span>Commencez gratuitement</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 text-center text-sm opacity-80">
+                        <p>Déjà membre? <a href="login.html" class="font-bold underline hover:no-underline">Connectez-vous</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side - Formulaire -->
+            <div class="w-full md:w-3/5 p-8">
+                <!-- Header -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800">
+                        <i class="fas fa-user-edit text-purple-600 mr-3"></i>
+                        Créer un compte
+                    </h1>
+                    <p class="text-gray-600 mt-2">Remplissez les informations ci-dessous. <span class="text-sm text-gray-500">(Tous les champs sont optionnels)</span></p>
+                </div>
+                
+                <!-- Formulaire -->
+                <form id="registerForm" class="space-y-6">
+                    
+                    <!-- Informations Personnelles -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Prénom -->
+                        <div>
+                            <label class="block text-gray-700 mb-2">
+                                <i class="fas fa-user text-blue-500 mr-2"></i>Prénom
+                            </label>
+                            <div class="input-focus border border-gray-300 rounded-lg p-2 transition">
+                                <input 
+                                    type="text" 
+                                    id="firstName"
+                                    class="w-full p-2 outline-none"
+                                    placeholder="Votre prénom"
+                                >
+                            </div>
+                        </div>
+                        
+                        <!-- Nom -->
+                        <div>
+                            <label class="block text-gray-700 mb-2">
+                                <i class="fas fa-user-tag text-blue-500 mr-2"></i>Nom
+                            </label>
+                            <div class="input-focus border border-gray-300 rounded-lg p-2 transition">
+                                <input 
+                                    type="text" 
+                                    id="lastName"
+                                    class="w-full p-2 outline-none"
+                                    placeholder="Votre nom"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-gray-700 mb-2">
+                            <i class="fas fa-envelope text-blue-500 mr-2"></i>Email
+                        </label>
+                        <div class="input-focus border border-gray-300 rounded-lg p-2 transition">
+                            <input 
+                                type="email" 
+                                id="email"
+                                class="w-full p-2 outline-none"
+                                placeholder="exemple@email.com"
+                            >
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Nous n'enverrons pas de spam</p>
+                    </div>
+                    
+                    <!-- Téléphone -->
+                    <div>
+                        <label class="block text-gray-700 mb-2">
+                            <i class="fas fa-phone text-blue-500 mr-2"></i>Téléphone
+                        </label>
+                        <div class="input-focus border border-gray-300 rounded-lg p-2 transition">
+                            <input 
+                                type="tel" 
+                                id="phone"
+                                class="w-full p-2 outline-none"
+                                placeholder="+212 6 XX XX XX XX"
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Mot de passe -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2">
+                                <i class="fas fa-lock text-blue-500 mr-2"></i>Mot de passe
+                            </label>
+                            <div class="input-focus border border-gray-300 rounded-lg p-2 transition">
+                                <input 
+                                    type="password" 
+                                    id="password"
+                                    class="w-full p-2 outline-none"
+                                    placeholder="Optionnel"
+                                >
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 mb-2">
+                                <i class="fas fa-lock text-blue-500 mr-2"></i>Confirmer
+                            </label>
+                            <div class="input-focus border border-gray-300 rounded-lg p-2 transition">
+                                <input 
+                                    type="password" 
+                                    id="confirmPassword"
+                                    class="w-full p-2 outline-none"
+                                    placeholder="Optionnel"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Date de naissance -->
+                    <div>
+                        <label class="block text-gray-700 mb-2">
+                            <i class="fas fa-birthday-cake text-blue-500 mr-2"></i>Date de naissance
+                        </label>
+                        <div class="input-focus border border-gray-300 rounded-lg p-2 transition">
+                            <input 
+                                type="date" 
+                                id="birthDate"
+                                class="w-full p-2 outline-none text-gray-700"
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Genre -->
+                    <div>
+                        <label class="block text-gray-700 mb-2">
+                            <i class="fas fa-venus-mars text-blue-500 mr-2"></i>Genre
+                        </label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="gender" value="male" class="text-blue-600">
+                                <span>Homme</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="gender" value="female" class="text-pink-600">
+                                <span>Femme</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="gender" value="other" class="text-purple-600">
+                                <span>Autre</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Newsletter -->
+                    <div class="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg">
+                        <input type="checkbox" id="newsletter" class="w-5 h-5 text-blue-600 rounded">
+                        <label for="newsletter" class="text-gray-700 cursor-pointer">
+                            <span class="font-medium">M'abonner à la newsletter</span>
+                            <p class="text-sm text-gray-600">Recevez nos dernières actualités et offres</p>
+                        </label>
+                    </div>
+                    
+                    <!-- Conditions -->
+                    <div class="flex items-start space-x-3">
+                        <input type="checkbox" id="terms" class="w-5 h-5 mt-1 text-blue-600 rounded">
+                        <label for="terms" class="text-gray-700 text-sm">
+                            J'accepte les <a href="#" class="text-blue-600 hover:underline">conditions d'utilisation</a> 
+                            et la <a href="#" class="text-blue-600 hover:underline">politique de confidentialité</a>
+                            <p class="text-xs text-gray-500 mt-1">(Requis pour créer un compte)</p>
+                        </label>
+                    </div>
+                    
+                    <!-- Boutons -->
+                    <div class="flex space-x-4 pt-4">
+                        <button type="submit" 
+                                class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition duration-300 shadow-md hover:shadow-lg">
+                            <i class="fas fa-user-plus mr-2"></i>S'inscrire
+                        </button>
+                        
+                        <button type="button" id="skipBtn"
+                                class="px-6 border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition">
+                            Passer
+                        </button>
+                    </div>
+                    
+                </form>
+                
+                <!-- Déjà membre -->
+                <div class="mt-8 text-center border-t pt-6">
+                    <p class="text-gray-600">
+                        Déjà membre? 
+                        <a href="login.html" class="text-blue-600 font-semibold hover:text-blue-800 ml-1">
+                            Connectez-vous ici <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </p>
+                </div>
+                
+                <!-- Message -->
+                <div id="message" class="mt-6 text-center"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Éléments DOM
+        const form = document.getElementById('registerForm');
+        const progressBar = document.getElementById('progressBar');
+        const messageDiv = document.getElementById('message');
+        const skipBtn = document.getElementById('skipBtn');
+        
+        // Calcul de progression
+        function updateProgress() {
+            const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"]');
+            const filled = Array.from(inputs).filter(input => input.value.trim() !== '').length;
+            const total = inputs.length;
+            const percentage = (filled / total) * 100;
+            
+            progressBar.style.width = percentage + '%';
+        }
+        
+        // Écouteurs pour la progression
+        form.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', updateProgress);
+        });
+        
+        // Initialiser la progression
+        updateProgress();
+        
+        // Gestion de la soumission
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Validation des conditions obligatoires
+            const termsAccepted = document.getElementById('terms').checked;
+            
+            if (!termsAccepted) {
+                showMessage('❌ Vous devez accepter les conditions pour continuer', 'red');
+                return;
+            }
+            
+            // Récupération des données
+            const formData = {
+                firstName: document.getElementById('firstName').value || 'Non spécifié',
+                lastName: document.getElementById('lastName').value || 'Non spécifié',
+                email: document.getElementById('email').value || 'Non spécifié',
+                phone: document.getElementById('phone').value || 'Non spécifié',
+                password: document.getElementById('password').value || 'Non spécifié',
+                birthDate: document.getElementById('birthDate').value || 'Non spécifié',
+                gender: document.querySelector('input[name="gender"]:checked')?.value || 'Non spécifié',
+                newsletter: document.getElementById('newsletter').checked
+            };
+            
+            // Simulation d'envoi
+            showMessage('⏳ Création du compte en cours...', 'blue');
+            
+            setTimeout(() => {
+                showMessage('✅ Compte créé avec succès! Redirection...', 'green');
+                
+                // Affichage des données dans la console (pour debug)
+                console.log('Données envoyées:', formData);
+                
+                // Redirection après 2 secondes
+                setTimeout(() => {
+                    // window.location.href = "dashboard.html";
+                    showMessage('🎉 Bienvenue ' + (formData.firstName !== 'Non spécifié' ? formData.firstName : '') + '!', 'green');
+                }, 2000);
+            }, 1500);
+        });
+        
+        // Bouton "Passer"
+        skipBtn.addEventListener('click', function() {
+            if (confirm("Voulez-vous créer un compte avec les informations minimales? Vous pourrez compléter votre profil plus tard.")) {
+                document.getElementById('terms').checked = true;
+                form.dispatchEvent(new Event('submit'));
+            }
+        });
+        
+        // Fonction d'affichage des messages
+        function showMessage(text, color) {
+            let icon = 'info-circle';
+            if (color === 'green') icon = 'check-circle';
+            if (color === 'red') icon = 'exclamation-circle';
+            if (color === 'blue') icon = 'sync-alt';
+            
+            messageDiv.innerHTML = `
+                <div class="inline-flex items-center bg-${color}-50 border border-${color}-200 text-${color}-700 px-4 py-3 rounded-lg">
+                    <i class="fas fa-${icon} mr-3"></i>
+                    <span>${text}</span>
+                </div>
+            `;
+        }
+        
+        // Effets visuels
+        document.querySelectorAll('.input-focus').forEach(div => {
+            const input = div.querySelector('input');
+            if (input) {
+                input.addEventListener('focus', () => {
+                    div.classList.add('border-blue-400', 'bg-blue-50');
+                });
+                input.addEventListener('blur', () => {
+                    div.classList.remove('border-blue-400', 'bg-blue-50');
+                });
+            }
+        });
+        
+        // Initialiser la date de naissance (18 ans par défaut)
+        const today = new Date();
+        const defaultDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        document.getElementById('birthDate').valueAsDate = defaultDate;
+    </script>
+    
+</body>
+</html>

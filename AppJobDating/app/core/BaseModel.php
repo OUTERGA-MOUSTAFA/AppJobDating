@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 abstract class BaseModel {
     protected $pdo;
     protected $table; // Doit être défini dans la classe child

@@ -1,11 +1,17 @@
 <?php
 namespace App\app\core;
 
-abstract class BaseController
-{
-    public function render($view, $data = [])
+class BaseController
+{        
+    // name view and data
+    protected function view($view, $data = [])
     {
         extract($data);
-        include DIR . "/views/{$view}.php";
+        $checkView =  BASE_PATH  . '/app/views/' . $view . '.php';
+         // view not exist
+        if (!file_exists($viewFile)) {
+            die("View not found: {$viewPath}");
+        }
+        require $viewFile;
     }
 }
