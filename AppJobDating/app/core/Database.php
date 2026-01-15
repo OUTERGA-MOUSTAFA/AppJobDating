@@ -51,4 +51,15 @@ class database{
         return $this->connection;
     }
     
+    /**
+     * Prépare et exécute une requête
+     * @ param string $sql
+     * @ param array $params
+     * @ return PDOStatement
+     */
+    function query($sql, $params = []) {
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
 }
