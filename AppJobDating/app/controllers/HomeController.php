@@ -1,21 +1,38 @@
 <?php
 
 namespace App\app\controllers;
+
 use App\app\core\BaseController;
 
 class HomeController extends BaseController
 {
-    public function dashboard()
+    public function showDashboard()
     {
-        // تحضير البيانات
-        $data = [
-            'title' => 'Dashboard',
-            'users' => ['Ahmed', 'Sara', 'Yassine'],
-            'total' => 1240
+         $data = [
+            'title' => 'Dashboard'
         ];
-        
-        // عرض الصفحة
-        $this->render('dashboard', $data);
+
+        return $this->view('dashboard', $data);
     }
     
+
+    public function login()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $_SESSION['user'] = [
+                'id' => 1,
+                'name' => 'Godass'
+            ];
+
+            return $this->redirect('/dashboard');
+        }
+
+        return $this->view('login');
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        return $this->redirect('/login');
+    }
 }

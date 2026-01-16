@@ -1,5 +1,7 @@
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . index.php [L,QSA]
-ErrorDocument 404 /404.php
+#RewriteEngine On
+
+# Rediriger vers le dossier public
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)$ public/index.php [QSA,L]
+# ErrorDocument 404 /404.php

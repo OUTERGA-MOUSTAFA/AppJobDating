@@ -4,7 +4,7 @@
 class TestClass {
 
     function home(){
-        return "مرحبا بك في الصفحة الرئيسية";
+        return "مرحبا بك في الصفحة test! ";
     }
 
 

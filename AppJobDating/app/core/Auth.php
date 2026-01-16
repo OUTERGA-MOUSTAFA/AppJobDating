@@ -4,13 +4,13 @@
 // first entre app
 if ($uri === '/' || $uri === '') {
     if (empty($_SESSION['email'])) {
-        header('Location: ' . BASE_PATH . '/register');
+        header('Location: /../views/register');
         exit();
     }elseif($_SESSION['login'] !== 'ok'){
-        header('Location: ' . BASE_PATH . '/login');
+        header('Location:/../views/login');
         exit();
     } else {
-        header('Location: ' . BASE_PATH . '/dashboard');
+        header('Location: /../views/dashboard');
         exit();
     }
 }

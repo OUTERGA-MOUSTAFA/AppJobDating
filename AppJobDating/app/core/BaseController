@@ -1,17 +1,27 @@
 <?php
+
 namespace App\app\core;
 
 class BaseController
-{        
-    // name view and data
-    protected function view($view, $data = [])
+{
+    protected static function View(string $view, array $data = [])
     {
         extract($data);
-        $checkView =  BASE_PATH  . '/app/views/' . $view . '.php';
-         // view not exist
-        if (!file_exists($viewFile)) {
+
+        $viewPath = __DIR__ . '/../views/' . $view . '.php';
+
+        if (!file_exists($viewPath)) {
             die("View not found: {$viewPath}");
         }
-        require $viewFile;
+
+        require $viewPath;
     }
+
+    //return $this->redirect('/dashboard');
+    protected function redirect(string $url)
+    {
+        header("Location: {$url}");
+        exit;
+    }
+
 }

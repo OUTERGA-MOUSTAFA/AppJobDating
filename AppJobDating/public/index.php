@@ -7,38 +7,20 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\app\core\Router;
-
+use App\app\controllers\HomeController;
+use App\app\controllers\Middleware;
 $router = new Router();
 
 /**
  * Routes
  */
-$router->get('/dashboard', function () {
-    //require BASE_PATH . '/app/views/dashboard.php';
-    require __DIR__ . '/../app/views/dashboard.php';
-});
 
-
-
-$router->get('/login', function () {
-    require __DIR__ . '/../app/views/login.php';
-});
-
-$router->post('/login', function () {
-    require __DIR__ . '/../app/views/login.php';
-});
-
-
-$router->get('/404', function () {
-    require __DIR__ . '/../app/views/404.php';
-});
-
-$router->get('/register', function () {
-    require __DIR__ . '/../app/views/register.php';
-});
-$router->post('/register', function () {
-    require __DIR__ . '/../app/views/register.php';
-});
+$router->get('/dashboard', [HomeController::class, 'dashboard'], [middleware::class]);
+$router->post('/dashboard', [HomeController::class, 'dashboard'], [middleware::class]);
+$router->get('/login', [HomeController::class, 'login'], [middleware::class]);
+$router->post('/login', [HomeController::class, 'login'], [middleware::class]);
+$router->get('/register', [HomeController::class, 'register'], [middleware::class]);
+$router->post('/register', [HomeController::class, 'register'], [middleware::class]);
 
 // dispatch request
 $controleur = $router->dispatch();

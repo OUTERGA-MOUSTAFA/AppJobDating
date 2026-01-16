@@ -1,133 +1,145 @@
 <?php
 namespace App\app\core;
-use App\models\cheking;
-// var_dump($_POST);
-use App\app\config\config;
-use App\app\core\BaseModel;
+use App\app\models\Database;
+class Validator
+{
+    private $errors = [];
+    private $data = [];
 
-class Validator extends BaseModel {
+    /**
+     * Valide les données selon les règles
+     */
+    public function validate(array $data, array $rules): bool
+    {
+        $this->data = $data;
+        $this->errors = [];
 
-    public function login() {
-        $email = strip_tags(trim($_POST['email'] ?? ''));
-        $password = strip_tags(trim($_POST['password'] ?? ''));
-        $errors = [];
-        if(empty($email)){
-            $errors []= "Email est obligatoire!";
-        }
-        if(empty($password)){
-            $errors []= "Password est obligatoire!";
-        }
-        $check = new cheking();
-        $emailResult = $check->checkEmail($email);
-        if (!$emailResult) {
-            $errors[] = "Email pas correct";
-        } else {
-            $passResult = $check->checkPassword($email);
+        foreach ($rules as $field => $ruleString) {
+            $rulesArray = explode('|', $ruleString);
+            $value = $data[$field] ?? null;
 
-            if (!password_verify($password, $passResult['password_hash'])) {
-                $errors[] = "Password pas correct";
+            foreach ($rulesArray as $rule) {
+                $this->applyRule($field, $value, $rule);
             }
         }
-                // redirigé vers
-        if (!empty($errors)) {
-            // function li dakhel class khem biha 
-            $this->showLogin($errors);
-            exit();
-        }elseif(empty($errors)) {
-            $getCin = new cheking();
-            $CIN= $getCin->getCIN($email);
 
-            $_SESSION['cin'] = $CIN['CIN'];
-            $_SESSION['login'] = 'ok';
-            $_SESSION['email'] = $email;
+        return empty($this->errors);
+    }
 
-            echo "<script>alert('Connexion réussie')'</script>";
-            header('Location: ' . BASE_PATH . '/dashboard');
-            exit();
-        }else{
-        header('location:'. BASE_PATH . '/login');
-        exit();
+    /**
+     * Applique une règle de validation
+     */
+    private function applyRule(string $field, $value, string $rule): void
+    {
+        // Parse rule avec paramètres (ex: min:5)
+        $parts = explode(':', $rule);
+        $ruleName = $parts[0];
+        $parameter = $parts[1] ?? null;
+
+        switch ($ruleName) {
+            case 'required':
+                if (empty($value) && $value !== '0') {
+                    $this->addError($field, "Le champ {$field} est requis");
+                }
+                break;
+
+            case 'email':
+                if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $this->addError($field, "Le champ {$field} doit être un email valide");
+                }
+                break;
+
+            case 'min':
+                if (strlen($value) < (int)$parameter) {
+                    $this->addError($field, "Le champ {$field} doit contenir au moins {$parameter} caractères");
+                }
+                break;
+
+            case 'max':
+                if (strlen($value) > (int)$parameter) {
+                    $this->addError($field, "Le champ {$field} ne doit pas dépasser {$parameter} caractères");
+                }
+                break;
+
+            case 'numeric':
+                if (!is_numeric($value)) {
+                    $this->addError($field, "Le champ {$field} doit être numérique");
+                }
+                break;
+
+            case 'alpha':
+                if (!ctype_alpha($value)) {
+                    $this->addError($field, "Le champ {$field} ne doit contenir que des lettres");
+                }
+                break;
+
+            case 'alphanumeric':
+                if (!ctype_alnum($value)) {
+                    $this->addError($field, "Le champ {$field} ne doit contenir que des lettres et chiffres");
+                }
+                break;
+
+            case 'confirmed':
+                $confirmField = $field . '_confirmation';
+                if ($value !== ($this->data[$confirmField] ?? null)) {
+                    $this->addError($field, "La confirmation ne correspond pas");
+                }
+                break;
+
+            case 'unique':
+                // Format: unique:table,column
+                if ($parameter) {
+                    list($table, $column) = explode(',', $parameter);
+                    if ($this->checkUnique($table, $column, $value)) {
+                        $this->addError($field, "Cette valeur existe déjà");
+                    }
+                }
+                break;
+
+            case 'url':
+                if (!filter_var($value, FILTER_VALIDATE_URL)) {
+                    $this->addError($field, "Le champ {$field} doit être une URL valide");
+                }
+                break;
         }
     }
 
-
-    public function register() {
-        // Récupération et nettoyage
-        $cin = trim($_POST['cin'] ?? '');
-        $name = trim($_POST['username'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        $password = trim($_POST['password'] ?? '');
-        $confirm_password = $_POST['confirm_password'] ?? '';
-
-        $errors = [];
-
-        // Validations
-        if (empty($cin)) {
-            $errors[] = "Le champ CIN est obligatoire";
-        }
-
-        if (empty($name)) {
-            $errors[] = "Le champ name est obligatoire";
-        }
-
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "Email invalide ou vide";
-        }
-
-        if (empty($password)) {
-
-            $errors[] = "Le champ Password est obligatoire";
-
-        } elseif (strlen($password) < 8) {
-
-            $errors[] = "Le mot de passe doit contenir au moins 8 caractères";
-        }
-
-        if (empty($confirm_password)) {
-            $errors[] = "Veuillez confirmer le mot de passe";
-        } elseif ($password !== $confirm_password) {
-            $errors[] = "Les mots de passe ne correspondent pas";
-        }
-        // Vérifier le doublement email en DB
-        
-        $checkInfo = new cheking();
-        $checkExist = $checkInfo->checkEmail($email);
-        var_dump($checkExist);
-        
-        if($checkExist != false){
-            if ($checkExist['email'] === $email) {
-            $errors[] = "Email déjà utilisé";
-            }
-            if($checkExist['CIN'] === $cin){
-                $errors[] = "CIN déjà utilisé";
-            }
-        }
-        
-        // Si aucune erreur → insertion
-        if (!empty($errors)) {
-            // function li dakhel class khem biha 
-            $this->showRegister($errors);
-            exit();
-
-        }elseif(empty($errors)) {
-
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            $userClass = new User($cin, $name, $email, $hashedPassword);
-            $result = $userClass->AddUser();
-            if($result === true){
-                $_SESSION['name'] = $name;
-                $_SESSION['cin'] = $cin;
-                $array = [];
-                $this->showLogin($array);
-            }
-            echo "<script>alert('Inscription réussie') window.location.href = '/login';</script>";
-            exit();
-        }else{
-        header('Location: ' . BASE_PATH . '/register');
-        exit();
-        }
+    /**
+     * Ajoute une erreur
+     */
+    private function addError(string $field, string $message): void
+    {
+        $this->errors[$field][] = $message;
     }
 
-    
+    /**
+     * Récupère toutes les erreurs
+     */
+    public function errors(): array
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Récupère les erreurs d'un champ spécifique
+     */
+    public function error(string $field): ?array
+    {
+        return $this->errors[$field] ?? null;
+    }
+
+    /**
+     * Vérifie l'unicité en base de données
+     */
+    private function checkUnique(string $table, string $column, $value): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare("SELECT COUNT(*) FROM {$table} WHERE {$column} = ?");
+            $stmt->execute([$value]);
+            return $stmt->fetchColumn() > 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }
