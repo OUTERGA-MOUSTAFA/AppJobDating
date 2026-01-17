@@ -1,6 +1,6 @@
 <?php
 namespace App\app\core;
-use App\app\models\Database;
+use App\app\core\Database;
 class Validator
 {
     private $errors = [];
@@ -134,7 +134,7 @@ class Validator
     private function checkUnique(string $table, string $column, $value): bool
     {
         try {
-            $db = Database::getInstance();
+            $db = Database::getInstance()->getConnection();
             $stmt = $db->prepare("SELECT COUNT(*) FROM {$table} WHERE {$column} = ?");
             $stmt->execute([$value]);
             return $stmt->fetchColumn() > 0;
@@ -142,4 +142,5 @@ class Validator
             return false;
         }
     }
+
 }

@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+// file artisan without .php
+require __DIR__ . '/vendor/autoload.php';
+
+use App\CLI\Console;
+
+$console = new Console($argv);
+$console->run();

@@ -1,44 +1,46 @@
-
 <?php
+
 namespace App\app\core;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use App\app\core\BaseConroller;
+
 class View
 {
     private $viewPath;
 
-    
-    public function renders(string $view, array $data = [])
+    /**
+     * Render PHP view
+     */
+    public function renderPhp(string $view, array $data = [])
     {
-        $this->viewPath = "../views/{$view}.php";
-
-    // Extraction des donné
+        $this->viewPath = __DIR__ . "/../views/{$view}.php";
+        
         extract($data);
-
+        
         ob_start();
         require $this->viewPath;
         $content = ob_get_clean();
-
-    
+        
+        echo $content;
     }
 
-     private static ?Environment $twig = null;
+    /**
+     * Render Twig template
+     */
+    private static ?Environment $twig = null;
 
     public static function render(string $template, array $data = []): void
     {
         if (self::$twig === null) {
-            $loader = new FilesystemLoader('../views');
+            $loader = new FilesystemLoader(__DIR__ . '/../views');
 
             self::$twig = new Environment($loader, [
-                'cache' => false, // __DIR__ . '/../../storage/cache' in prod
+                'cache' => false,
                 'debug' => true,
             ]);
         }
 
         echo self::$twig->render($template . '.twig', $data);
     }
-
-    
 }

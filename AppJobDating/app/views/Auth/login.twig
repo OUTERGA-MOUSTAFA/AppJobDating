@@ -1,3 +1,6 @@
+{% extends "layout/layout.twig" %}
+
+                {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,29 +33,30 @@
             <h1 class="text-3xl font-bold text-white">
                 <i class="fas fa-user-circle mr-2"></i>Welcome Back
             </h1>
-            <p class="text-white/80 mt-2">
-                {% extends "layout/layout.twig" %}
-
-                {% block content %}
-
+            <p class="text-white/80 mt-2">                
+                
+                            
+            <!-- Message -->
+            <div id="message" class="mt-6 text-center">
                 {% if errors %}
-                    <div class="alert alert-danger">
-                        <ul>
-                            {% for field, messages in errors %}
-                                {% for message in messages %}
-                                    <li>{{ message }}</li>
-                                {% endfor %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field, messages in errors %}
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
                             {% endfor %}
-                        </ul>
-                    </div>
+                        {% endfor %}
+                    </ul>
+                </div>
                 {% endif %}
+            </div>
             </p>
         </div>
         
         <!-- Form -->
         <div class="p-8">
-            <form id="loginForm" class="space-y-6">
-                
+            <form action="/dashboard" class="space-y-6">
+                <input type="hidden"  name="_token" value="{{csrf_token}}" >
                 <!-- Email Input -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">
@@ -64,7 +68,7 @@
                             id="email"
                             class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                             placeholder="example@site.com"
-                            required
+                            
                         >
                         <div class="absolute left-4 top-3.5 input-icon">
                             <i class="fas fa-user"></i>
@@ -83,7 +87,7 @@
                             id="password"
                             class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                             placeholder="••••••••"
-                            required
+                            
                         >
                         <div class="absolute left-4 top-3.5 input-icon">
                             <i class="fas fa-key"></i>
@@ -92,17 +96,6 @@
                             <i class="far fa-eye"></i>
                         </button>
                     </div>
-                </div>
-                
-                <!-- Remember & Forgot -->
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input type="checkbox" id="remember" class="w-4 h-4 text-blue-600 rounded">
-                        <label for="remember" class="ml-2 text-gray-700">Remamber</label>
-                    </div>
-                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                        <i class="fas fa-question-circle mr-1"></i>Forget Password?
-                    </a>
                 </div>
                 
                 <!-- Submit Button -->
@@ -120,37 +113,10 @@
                         <span class="px-4 bg-white text-gray-500">Or</span>
                     </div>
                 </div>
-                
-                <!-- Social Login -->
-                <div class="grid grid-cols-3 gap-4">
-                    <button type="button" 
-                            class="py-3 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition flex items-center justify-center">
-                        <i class="fab fa-google text-lg"></i>
-                    </button>
-                    <button type="button" 
-                            class="py-3 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition flex items-center justify-center">
-                        <i class="fab fa-facebook text-lg"></i>
-                    </button>
-                    <button type="button" 
-                            class="py-3 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition flex items-center justify-center">
-                        <i class="fab fa-github text-lg"></i>
-                    </button>
+                <div class="mt-12 text-center text-sm opacity-80">
+                    <p>Pas encore inscrire? <a href="/register" class="font-bold underline hover:no-underline">inscré-vous</a></p>
                 </div>
-                
             </form>
-            
-            <!-- Signup Link -->
-            <div class="mt-8 text-center">
-                <p class="text-gray-600">
-                    I don't have compte? 
-                    <a href="#" class="text-blue-600 font-semibold hover:text-blue-800 ml-1">
-                        Sajel hna <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
-                </p>
-            </div>
-            
-            <!-- Message -->
-            <div id="message" class="mt-6 text-center"></div>
         </div>
         
     </div>
@@ -171,34 +137,6 @@
             }
         });
         
-        // Form Submission
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const message = document.getElementById('message');
-            
-            // Validation basique
-            if(!email.includes('@')) {
-                showMessage('❌ Email ghalat!', 'red');
-                return;
-            }
-            
-            if(password.length < 6) {
-                showMessage('❌ Password khassha tkun 6 characters aw akthar!', 'red');
-                return;
-            }
-            
-            // Simuler login réussit
-            showMessage('✅ Login réussit! Tan7erraf...', 'green');
-            
-            // Redirection simulation
-            setTimeout(() => {
-                showMessage('🚀 Redirecting to dashboard...', 'blue');
-                // window.location.href = "dashboard.html";
-            }, 1500);
-        });
         
         function showMessage(text, color) {
             const message = document.getElementById('message');
@@ -220,3 +158,4 @@
     
 </body>
 </html>
+{% endblock %}

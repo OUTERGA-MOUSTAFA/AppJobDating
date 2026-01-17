@@ -1,7 +1,7 @@
 <?php
 namespace App\app\Middlewares;
 
-use App\app\Core\MiddlewareInterface;
+use App\app\core\MiddlewareInterface;
 
 class AdminMiddleware implements MiddlewareInterface
 {

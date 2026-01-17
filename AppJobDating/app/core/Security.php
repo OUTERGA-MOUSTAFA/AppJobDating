@@ -66,7 +66,7 @@ class Security
     /**
      * Hash un mot de passe de manière sécurisée
      */
-    // git commit -m "ADJD-41 Hash passwords bcrypt des mots de passe"
+
     public function hashPassword(string $password): string
     {
         return password_hash($password, PASSWORD_ARGON2ID);
@@ -97,4 +97,13 @@ class Security
     {
         return addslashes($string);
     }
+
+    public static function againstHijacking(): void {
+        header("X-Frame-Options: DENY");
+        header("X-Content-Type-Options: nosniff");
+        header("X-XSS-Protection: 1; mode=block");
+        header("Referrer-Policy: strict-origin");
+        header("Content-Security-Policy: frame-ancestors 'none'");
+    }
+
 }

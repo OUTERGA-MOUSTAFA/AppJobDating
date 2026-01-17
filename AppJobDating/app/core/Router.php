@@ -5,7 +5,8 @@
 /********************/
 namespace App\app\Core;
 
-use App\app\core\config;
+use App\app\config\config;
+use App\app\core\BaseController;
 
 class Router {
 
@@ -73,7 +74,7 @@ class Router {
 
         $routes = $this->Routes[$_SERVER['REQUEST_METHOD']];
     
-        foreach ($routes as $route => $action)
+        foreach ($routes as $route => $routeData)
         {
             // Transform route to regex pattern.
             $routeRegex = preg_replace_callback('/{\w+(:([^}]+))?}/', function ($matches)//  $matches=> id = 5
@@ -116,7 +117,8 @@ class Router {
                     // 'commentId' => 3
                     // ];
                 // Combine between route parameter names and user provided parameter values.
-                $routeParams = array_combine($routeParamsNames, $routeParamsValues);
+                $routeParams = !empty($routeParamsNames) ? array_combine($routeParamsNames, $routeParamsValues) : [];
+                // $routeParams = array_combine($routeParamsNames, $routeParamsValues);
                 
                 return $this->resolveAction($routeData['action'], $routeParams);
                 /********************Exemple**********************/

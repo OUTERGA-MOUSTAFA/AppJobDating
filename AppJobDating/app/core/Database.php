@@ -1,6 +1,7 @@
 <?php
-namespace App\app\models;
+namespace App\app\core;
 use App\config\config;
+use Illuminate\Database\Capsule\Manager as Capsule;  
 // global class f php
 use PDO;
 use PDOException;

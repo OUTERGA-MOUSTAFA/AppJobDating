@@ -1,6 +1,6 @@
 <?php
 namespace App\app\core;
-
+use App\app\core\Database;
 abstract class BaseModel {
     protected $pdo;
     protected $table; // Doit être défini dans la classe child
@@ -68,7 +68,7 @@ abstract class BaseModel {
      */
     public function count(): int
     {
-        $stmt = $this->db->query("SELECT COUNT(*) FROM {$this->table}");
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM {$this->table}");
         return (int) $stmt->fetchColumn();
     }
 
@@ -91,9 +91,9 @@ abstract class BaseModel {
      */
     public function query(string $sql, array $params = []): array
     {
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();
     }
-    
+
 }

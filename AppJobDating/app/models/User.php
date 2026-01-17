@@ -15,7 +15,8 @@ class User extends BaseModel
      */
     public function findByEmail(string $email): ?array
     {
-        return $this->first('email', $email);
+        $result = $this->where('email', $email);
+        return !empty($result) ? $result[0] : null;
     }
 
     /**
@@ -41,7 +42,7 @@ class User extends BaseModel
     public function updateLastLogin(int $userId): bool
     {
         $sql = "UPDATE {$this->table} SET last_login = NOW() WHERE {$this->primaryKey} = ?";
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([$userId]);
     }
     public function alldata() :array

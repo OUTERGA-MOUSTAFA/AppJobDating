@@ -7,20 +7,20 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\app\core\Router;
-use App\app\controllers\HomeController;
-use App\app\controllers\{Middleware, AuthMiddleware,EtudiantMiddleware, AdminMiddleware};
+use App\app\controllers\AuthController;
+use App\app\Middlewares\{Middleware, AuthMiddleware,EtudiantMiddleware, AdminMiddleware};
 $router = new Router();
 
 /**
  * Routes
  */
 
-$router->get('/dashboard', [HomeController::class, 'dashboard'], [EtudiantMiddleware::class]);
-$router->post('/dashboard', [HomeController::class, 'dashboard'], [EtudiantMiddleware::class]);
-$router->get('/login', [HomeController::class, 'login'], [middleware::class]);
-$router->post('/login', [HomeController::class, 'login'], [middleware::class]);
-$router->get('/register', [HomeController::class, 'register'], [middleware::class]);
-$router->post('/register', [HomeController::class, 'register'], [middleware::class]);
+$router->get('/dashboard', [AuthController::class, 'dashboard'], [EtudiantMiddleware::class]);
+$router->post('/dashboard', [AuthController::class, 'dashboard'], [EtudiantMiddleware::class]);
+$router->get('/login', [AuthController::class, 'showLogin'], [Middleware::class]);
+$router->post('/login', [AuthController::class, 'login'], [Middleware::class]);
+$router->get('/register', [AuthController::class, 'showRegister'], [Middleware::class]);
+$router->post('/register', [AuthController::class, 'register'], [Middleware::class]);
 
 // dispatch request
 $controleur = $router->dispatch();

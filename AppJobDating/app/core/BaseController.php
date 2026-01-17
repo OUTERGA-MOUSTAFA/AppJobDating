@@ -1,7 +1,7 @@
 <?php
 
 namespace App\app\core;
-
+use App\app\core\{View,Validator,Security,Session}; // ✅ Validator
 class BaseController
 {
 
@@ -10,8 +10,15 @@ class BaseController
     protected $session;
     protected $validator;
 
+    public function __construct()
+    {
+        $this->view = new View();
+        $this->security = new Security();
+        $this->session = Session::getInstance();
+        $this->validator = new Validator();
+    }
 
-    protected static function View(string $view, array $data = [])
+    protected function view(string $view, array $data = [])
     {
         extract($data);
 
@@ -24,15 +31,6 @@ class BaseController
         require $viewPath;
     }
 
-     public function __construct()
-    {
-        $this->view = new View();
-        $this->security = new Security();
-        $this->session = Session::getInstance();
-        $this->validator = new Validator();
-    }
-
-
      protected function json(array $data, int $statusCode = 200)
     {
         http_response_code($statusCode);
@@ -42,7 +40,7 @@ class BaseController
     }
 
     //return $this->redirect('/dashboard');
-    
+
     protected function redirect(string $url, int $statusCode = 302)
     {
         http_response_code($statusCode);
@@ -50,17 +48,15 @@ class BaseController
         exit;
     }
 
-
     protected function render(string $view, array $data = []): void
     {
-        View::render($view, $data);
+        View::render($view, $data); // ✅ View of Twig
     }
-
     protected function verifyCsrf()
     {
         if (!$this->security->verifyCsrfToken($_POST['_token'] ?? '')) {
             $this->json(['error' => 'Invalid CSRF token'], 403);
-            http_response_code(403);
+            // http_response_code(403);
         }
     }
 

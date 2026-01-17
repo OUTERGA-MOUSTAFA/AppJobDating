@@ -1,10 +1,10 @@
 <?php
 namespace App\app\Middlewares;
 
-use App\app\Core\MiddlewareInterface;
+use App\app\core\MiddlewareInterface;
 
 
-class AuthMiddleware implements Middleware {
+class AuthMiddleware implements MiddlewareInterface {
     public function handle() {
 
         if (!isset($_SESSION['user_id'])) {
