@@ -1,5 +1,8 @@
 <?php
+/*********************/
+//  Dynamic Routes
 
+/********************/
 namespace App\app\Core;
 
 use App\app\core\config;
@@ -12,6 +15,8 @@ class Router {
         'PUT' => [],
         'DELETE' => []
     ];
+
+     /********************Exemple**********************/
 // $Routes = [
 //     'GET' => ['' => function() { echo "Home"; }, 'dashboard' => [HomeController::class, 'index'], 'users' => [UserController::class, 'list'], 'user/{id}' => [UserController::class, 'show']
 //     ],
@@ -26,6 +31,7 @@ class Router {
     private function addRoute( string $route,string $method, array|callable $action, array $middleware = [])
     {
         $this->Routes[$method][$route] = ['action' =>$action, 'middleware' => $middleware];
+         /**************************Exemple****************************/
         //$action = [ 'App\app\Controllers\UserController','show'];
         //Ex: $action = [UserController::class, 'show'];
     }
@@ -59,13 +65,12 @@ class Router {
     // $router->dispatch();
     public function dispatch()
     {
-        // Get the requested route.
-        $requestedRoute = trim($_SERVER['REQUEST_URI'], '/') ?? '/';
-        //  if (BASE_PATH !== '' && defined('BASE_PATH',"/AppJobDating")) {
-        //     $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
-        // }
-        // $requestedRoute = str_replace(BASE_PATH, '', $requestedRoute);
-        
+        // Get the requested route and clean it
+        $requestedRoute = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+        // إزالة المائل (/) من البداية والنهاية
+        $requestedRoute = trim($requestedRoute, '/') ?: '/';
+
         $routes = $this->Routes[$_SERVER['REQUEST_METHOD']];
     
         foreach ($routes as $route => $action)
@@ -88,6 +93,7 @@ class Router {
                 foreach ($routeData['middleware'] as $middleware) {
                     (new $middleware)->handle();
                 }
+                
                 // Get all user requested path params values after removing the first matches.
                 array_shift($matches);
                 $routeParamsValues = $matches;
@@ -104,21 +110,29 @@ class Router {
                     // $routeParamsValues = [10, 3];
                     // $routeParamsNames  = ['postId', 'commentId'];
                 }
+                 /********************Exemple**********************/
                 //$routeParams = [
                     // 'postId' => 10,
                     // 'commentId' => 3
                     // ];
                 // Combine between route parameter names and user provided parameter values.
                 $routeParams = array_combine($routeParamsNames, $routeParamsValues);
-
-                return  $this->resolveAction($action, $routeParams);
+                
+                return $this->resolveAction($routeData['action'], $routeParams);
+                /********************Exemple**********************/
+                // class UserController {
+                //     public function show($id) {
+                //         echo "عرض ملف المستخدم ذو الرقم: " . $id;
+                //     }
             }
         }
+        // 4. إذا لم يوجد المسار
         return $this->abort();
     }
 
      private function resolveAction($action, array $params = [])
     {
+        
         // case 1: Closure
         if (is_callable($action)) {
             return call_user_func_array($action, $params);
@@ -126,7 +140,29 @@ class Router {
 
         // case 2: Controller + method
         [$controllerClass, $method] = $action;
+        
+        // using Reflection func for paramettres be compatible
+    $reflectionMethod = new \ReflectionMethod($controllerClass, $method);
+    $parameters = $reflectionMethod->getParameters();
+    
+    $dependencies = []; 
 
+    foreach ($parameters as $parameter) {
+        $name = $parameter->getName(); // get var for ex id
+
+        if (array_key_exists($name, $params)) {
+            // if name exists in url params, get it here
+            $dependencies[] = $params[$name];
+        } elseif ($parameter->isDefaultValueAvailable()) {
+            // if not exists give him a defaulth value
+            $dependencies[] = $parameter->getDefaultValue();
+        } else {
+            // problem on params or wrong name give him null
+            $dependencies[] = null;
+        }
+    }
+
+        // create a new class and call func
         $controller = new $controllerClass();
 
         return call_user_func_array([$controller, $method], $params);
@@ -134,10 +170,12 @@ class Router {
 
     protected function abort()
     {
+        // 4. إذا لم يوجد المسار
         http_response_code(404);
         require __DIR__ . '/../views/404.php';
         exit;
     }
+
     // behind code
     // Route: user/{id}
     // URL:   user/5

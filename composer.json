@@ -10,5 +10,8 @@
             "name": "OUTERGA-MOUSTAFA",
             "email": "outergamoustafa@gmail.com"
         }
-    ]
+    ],
+    "require": {
+        "twig/twig": "^3.22"
+    }
 }
