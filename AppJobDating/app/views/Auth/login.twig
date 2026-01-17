@@ -30,7 +30,23 @@
             <h1 class="text-3xl font-bold text-white">
                 <i class="fas fa-user-circle mr-2"></i>Welcome Back
             </h1>
-            <p class="text-white/80 mt-2">Dkhol l compte dyalek bach tkmel</p>
+            <p class="text-white/80 mt-2">
+                {% extends "layout/layout.twig" %}
+
+                {% block content %}
+
+                {% if errors %}
+                    <div class="alert alert-danger">
+                        <ul>
+                            {% for field, messages in errors %}
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </p>
         </div>
         
         <!-- Form -->
@@ -40,7 +56,7 @@
                 <!-- Email Input -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">
-                        <i class="fas fa-envelope mr-2 text-blue-500"></i>Email aw Username
+                        <i class="fas fa-envelope mr-2 text-blue-500"></i>Email or Username
                     </label>
                     <div class="relative">
                         <input 
@@ -82,17 +98,17 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input type="checkbox" id="remember" class="w-4 h-4 text-blue-600 rounded">
-                        <label for="remember" class="ml-2 text-gray-700">Hfedni</label>
+                        <label for="remember" class="ml-2 text-gray-700">Remamber</label>
                     </div>
                     <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                        <i class="fas fa-question-circle mr-1"></i>Tnsa Password?
+                        <i class="fas fa-question-circle mr-1"></i>Forget Password?
                     </a>
                 </div>
                 
                 <!-- Submit Button -->
                 <button type="submit" 
                         class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition duration-300 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-sign-in-alt mr-2"></i>Dkhol
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login
                 </button>
                 
                 <!-- Divider -->
@@ -101,7 +117,7 @@
                         <div class="w-full border-t border-gray-300"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="px-4 bg-white text-gray-500">Awla</span>
+                        <span class="px-4 bg-white text-gray-500">Or</span>
                     </div>
                 </div>
                 
@@ -126,7 +142,7 @@
             <!-- Signup Link -->
             <div class="mt-8 text-center">
                 <p class="text-gray-600">
-                    Makaynach l compte? 
+                    I don't have compte? 
                     <a href="#" class="text-blue-600 font-semibold hover:text-blue-800 ml-1">
                         Sajel hna <i class="fas fa-arrow-right ml-1"></i>
                     </a>
