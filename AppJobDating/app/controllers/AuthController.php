@@ -1,6 +1,6 @@
 <?php
 namespace App\app\controller;
-use App\app\core\Controller;
+use App\app\core\BaseController;
 
 // use App\models\User;
 

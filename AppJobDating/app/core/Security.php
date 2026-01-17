@@ -66,7 +66,7 @@ class Security
     /**
      * Hash un mot de passe de manière sécurisée
      */
-
+    // git commit -m "ADJD-41 Hash passwords bcrypt des mots de passe"
     public function hashPassword(string $password): string
     {
         return password_hash($password, PASSWORD_ARGON2ID);

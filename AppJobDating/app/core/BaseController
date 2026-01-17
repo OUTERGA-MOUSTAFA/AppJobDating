@@ -4,6 +4,13 @@ namespace App\app\core;
 
 class BaseController
 {
+
+    protected $view;
+    protected $security;
+    protected $session;
+    protected $validator;
+
+
     protected static function View(string $view, array $data = [])
     {
         extract($data);
@@ -17,11 +24,47 @@ class BaseController
         require $viewPath;
     }
 
-    //return $this->redirect('/dashboard');
-    protected function redirect(string $url)
+     public function __construct()
     {
-        header("Location: {$url}");
+        $this->view = new View();
+        $this->security = new Security();
+        $this->session = Session::getInstance();
+        $this->validator = new Validator();
+    }
+
+
+     protected function json(array $data, int $statusCode = 200)
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json');
+        echo json_encode($data);
         exit;
     }
+
+    //return $this->redirect('/dashboard');
+    
+    protected function redirect(string $url, int $statusCode = 302)
+    {
+        http_response_code($statusCode);
+        header("Location: $url");
+        exit;
+    }
+
+
+    protected function render(string $view, array $data = []): void
+    {
+        View::render($view, $data);
+    }
+
+    protected function verifyCsrf()
+    {
+        if (!$this->security->verifyCsrfToken($_POST['_token'] ?? '')) {
+            $this->json(['error' => 'Invalid CSRF token'], 403);
+            http_response_code(403);
+        }
+    }
+
+
+
 
 }

@@ -4,7 +4,7 @@ namespace App\app\core;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-
+use App\app\core\BaseConroller;
 class View
 {
     private $viewPath;

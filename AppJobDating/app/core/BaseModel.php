@@ -1,4 +1,5 @@
 <?php
+namespace App\app\core;
 
 abstract class BaseModel {
     protected $pdo;
@@ -60,4 +61,39 @@ abstract class BaseModel {
         $stmt->execute(['val' => $value]);
         return $stmt->fetchAll();
     }
+
+
+    /**
+     * Compte le nombre d'enregistrements
+     */
+    public function count(): int
+    {
+        $stmt = $this->db->query("SELECT COUNT(*) FROM {$this->table}");
+        return (int) $stmt->fetchColumn();
+    }
+
+    /**
+     * Filtre les données selon les champs autorisés
+     */
+    private function filterFillable(array $data): array
+    {
+        if (empty($this->fillable)) {
+            return $data;
+        }
+
+        return array_filter($data, function($key) {
+            return in_array($key, $this->fillable);
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
+    /**
+     * Query builder simple
+     */
+    public function query(string $sql, array $params = []): array
+    {
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+    
 }
